@@ -24,11 +24,75 @@ This project consists of the following main steps:
    - AWS CLI installed and configured with necessary credentials.
    - A GitHub repository containing your static website files (e.g., `index.html`, CSS, JS).
 
-### 2. **Create an S3 Bucket for Static Website Hosting**
-   - Navigate to the **S3** service in the AWS Management Console.
-   - Create a new bucket (e.g., `static-web-gudisa`).
-   - Enable **static website hosting** under the bucket properties.
-   - Set the **index document** (e.g., `index.html`) and **error document** (e.g., `error.html`).
+Here’s an expanded version of **Step 2: Create an S3 Bucket for Static Website Hosting**, with detailed instructions:
+
+---
+
+### **Step 2: Create an S3 Bucket for Static Website Hosting**
+
+The S3 bucket is where your static website files will be stored and hosted. AWS S3 (Simple Storage Service) provides a scalable and cost-effective way to host static websites without the need for a traditional web server.
+
+Follow these steps to create and configure your S3 bucket for static website hosting:
+
+---
+
+#### **1. Access the S3 Service**
+1. Log in to the **AWS Management Console**.
+2. Search for **S3** in the search bar and click on the **S3 service**.
+
+---
+
+#### **2. Create a New Bucket**
+1. Click on the **Create bucket** button.
+2. Provide the following details:
+   - **Bucket name**: Enter a unique name for your bucket (e.g., `static-web-gudisa`). Bucket names must be globally unique across all AWS accounts.
+   - **Region**: Choose a region close to your target audience for better performance (e.g., `us-east-1`).
+
+3. Under **Bucket settings for Block Public Access**, make sure to:
+   - Uncheck the option **Block all public access**.
+   - Confirm that you understand the risks of enabling public access. (Static websites need to be publicly accessible for users to view them.)
+
+4. Click **Create bucket** to finalize the bucket creation.
+
+---
+
+#### **3. Enable Static Website Hosting**
+1. After creating the bucket, navigate to the bucket's **Properties** tab.
+2. Scroll down to the **Static website hosting** section and click **Edit**.
+3. Choose **Enable** to turn on static website hosting.
+4. Specify the following:
+   - **Index document**: Enter the name of your website's home page file (e.g., `index.html`).
+   - **Error document**: Optionally, specify an error page file (e.g., `error.html`) to display if users access a non-existent page.
+
+5. Save the changes.
+
+---
+
+#### **4. Configure Bucket Permissions**
+1. Go to the **Permissions** tab of your bucket.
+2. Set a **bucket policy** to allow public read access to your website files:
+   - Click **Edit** in the **Bucket policy** section.
+   - Paste the following JSON policy (replace `your-bucket-name` with your actual bucket name):
+     ```json
+     {
+       "Version": "2012-10-17",
+       "Statement": [
+         {
+           "Sid": "PublicReadGetObject",
+           "Effect": "Allow",
+           "Principal": "*",
+           "Action": "s3:GetObject",
+           "Resource": "arn:aws:s3:::static-web-gudisa/*"
+         }
+       ]
+     }
+     ```
+   - Click **Save changes**.
+
+3. Make sure the public access settings align with your bucket policy:
+   - Navigate to **Block public access settings** and confirm that public access is allowed for the bucket.
+
+---
 
 ### 3. **Set Up the AWS CodePipeline**
    - **Create a new CodePipeline** in the AWS Management Console.
